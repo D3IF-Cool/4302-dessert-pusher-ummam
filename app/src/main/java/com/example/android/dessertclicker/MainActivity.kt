@@ -36,13 +36,7 @@ class MainActivity : AppCompatActivity() {
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
 
-    /** Dessert Data **/
-
-    /**
-     * Simple data class that represents a dessert. Includes the resource id integer associated with
-     * the image, the price it's sold for, and the startProductionAmount, which determines when
-     * the dessert starts to be produced.
-     */
+    private lateinit var dessertTimer: DessertTimer
     data class Dessert(val imageId: Int, val price: Int, val startProductionAmount: Int)
 
     // Create a list of all desserts, in order of when they start being produced
@@ -73,8 +67,8 @@ class MainActivity : AppCompatActivity() {
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
         }
+        dessertTimer = DessertTimer()
 
-        // Set the TextViews to the right values
         binding.revenue = revenue
         binding.amountSold = dessertsSold
 
@@ -84,6 +78,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart Called")
+        dessertTimer.startTimer()
+
     }
     override fun onResume() {
         super.onResume()
@@ -96,6 +92,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop Called")
+        dessertTimer.stopTimer()
     }
     override fun onDestroy() {
         super.onDestroy()
